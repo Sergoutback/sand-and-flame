@@ -1,12 +1,17 @@
 using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Infrastructure
+namespace Runtime
 {
     public class SceneLoader : MonoBehaviour
     {
         public static SceneLoader Instance { get; private set; }
+        
+        [SerializeField] private float _fadeDuration = 0.5f;
+        
+        private CanvasGroup FadeCanvasGroup => UIRoot.Instance.FadeCanvasGroup;
 
         private void Awake()
         {
@@ -18,6 +23,9 @@ namespace Infrastructure
 
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            
+            if (UIRoot.Instance == null)
+                Debug.LogWarning("UIRoot.Instance is null in SceneLoader Awake.");
         }
 
         public void Load(string sceneName)
@@ -27,9 +35,9 @@ namespace Infrastructure
 
         private IEnumerator LoadSceneAsync(string sceneName)
         {
-            AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
-            while (!operation.isDone)
-                yield return null;
+            yield return FadeCanvasGroup.DOFade(1f, _fadeDuration).WaitForCompletion();
+            yield return SceneManager.LoadSceneAsync(sceneName);
+            yield return FadeCanvasGroup.DOFade(0f, _fadeDuration).WaitForCompletion();
         }
     }
 }

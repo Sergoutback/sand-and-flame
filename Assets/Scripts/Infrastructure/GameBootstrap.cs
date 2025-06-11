@@ -1,10 +1,12 @@
 using UnityEngine;
+using Core.Interfaces;
+using Infrastructure.StateMachine;
 
 namespace Infrastructure
 {
-    public class Game : MonoBehaviour
+    public class GameBootstrap : MonoBehaviour
     {
-        public static Game Instance { get; private set; }
+        public static GameBootstrap Instance { get; private set; }
         public GameStateMachine StateMachine { get; private set; }
         
         private void Awake()

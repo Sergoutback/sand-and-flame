@@ -1,9 +1,13 @@
-namespace Infrastructure
+namespace Core.Interfaces
 {
-    public interface IGameState
+    public interface IExitableState
+    {
+        void Exit();
+    }
+
+    public interface IGameState : IExitableState
     {
         void Enter();
-        void Exit();
     }
 
     public interface IPayloadedState<TPayload> : IGameState

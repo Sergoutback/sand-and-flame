@@ -1,6 +1,9 @@
 using UnityEngine;
+using Core.Interfaces;
+using Runtime;
 
-namespace Infrastructure
+
+namespace Infrastructure.StateMachine
 {
     public class GameLoopState : IGameState
     {

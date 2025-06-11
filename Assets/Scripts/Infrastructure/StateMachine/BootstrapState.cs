@@ -1,6 +1,7 @@
 using UnityEngine;
+using Core.Interfaces;
 
-namespace Infrastructure
+namespace Infrastructure.StateMachine
 {
     public class BootstrapState : IGameState
     {
@@ -18,6 +19,8 @@ namespace Infrastructure
             _stateMachine.Enter<MenuState>();
         }
 
-        public void Exit() { }
+        public void Exit()
+        {
+        }
     }
 }

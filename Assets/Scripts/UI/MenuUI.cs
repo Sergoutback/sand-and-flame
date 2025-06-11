@@ -1,3 +1,4 @@
+using Core.Interfaces;
 using Infrastructure;
 using UnityEngine;
 
@@ -14,7 +15,7 @@ namespace UI
 
         private void HandleStartClicked()
         {
-            Game.Instance.StateMachine.Enter<Infrastructure.GameLoopState>();
+            GameBootstrap.Instance.StateMachine.Enter<Infrastructure.StateMachine.GameLoopState>();
         }
     }
 }
