@@ -36,6 +36,7 @@ public class Card : MonoBehaviour
     {
         isFlipped = !isFlipped;
         cardView.OnCardClicked();
+        AudioManager.Instance?.PlayCardFlip();
     }
     
     public void SetMatched()

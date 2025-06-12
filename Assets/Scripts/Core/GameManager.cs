@@ -112,6 +112,8 @@ public class GameManager : MonoBehaviour
             matchesCount++;
             progressUI?.UpdateMatches(matchesCount);
             
+            AudioManager.Instance?.PlayCardMatch();
+            
             yield return new WaitForSeconds(cardMatchDelay);
             firstCard.Hide();
             secondCard.Hide();
@@ -121,6 +123,17 @@ public class GameManager : MonoBehaviour
             if (cards.All(card => card.IsMatched))
             {
                 yield return new WaitForSeconds(cardMatchDelay);
+                if (score > highscore)
+                {
+                    highscore = score;
+                    saveLoadManager.SaveHighscore(highscore);
+                    progressUI.UpdateHighscore(highscore);
+                    AudioManager.Instance?.PlayNewHighscore();
+                }
+                else
+                {
+                    AudioManager.Instance?.PlayGameEnd();
+                }
                 onGameWon?.Invoke();
             }
             
@@ -134,6 +147,7 @@ public class GameManager : MonoBehaviour
                 highscore = score;
                 saveLoadManager.SaveHighscore(highscore);
                 progressUI.UpdateHighscore(highscore);
+                AudioManager.Instance?.PlayNewHighscore();
             }
         }
         else
@@ -143,6 +157,7 @@ public class GameManager : MonoBehaviour
             firstCard.Flip();
             secondCard.Flip();
             comboStreak = 0;
+            AudioManager.Instance?.PlayCardMismatch();
         }
         
         flippedCards.Clear();
