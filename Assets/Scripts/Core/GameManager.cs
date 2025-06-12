@@ -120,34 +120,28 @@ public class GameManager : MonoBehaviour
             
             SaveProgress();
             
+            comboStreak = comboStreak > 0 ? comboStreak + 1 : 1;
+            int points = (int)Mathf.Pow(2, comboStreak - 1);
+            score += points;
+            progressUI.UpdateScore(score);
+
             if (cards.All(card => card.IsMatched))
             {
                 yield return new WaitForSeconds(cardMatchDelay);
+                bool isNewRecord = false;
                 if (score > highscore)
                 {
                     highscore = score;
                     saveLoadManager.SaveHighscore(highscore);
                     progressUI.UpdateHighscore(highscore);
+                    isNewRecord = true;
+                }
+                progressUI.ShowGameOver(isNewRecord);
+                if (isNewRecord)
                     AudioManager.Instance?.PlayNewHighscore();
-                }
                 else
-                {
                     AudioManager.Instance?.PlayGameEnd();
-                }
                 onGameWon?.Invoke();
-            }
-            
-            comboStreak = comboStreak > 0 ? comboStreak + 1 : 1;
-            int points = (int)Mathf.Pow(2, comboStreak - 1);
-            score += points;
-            progressUI.UpdateScore(score);
-            
-            if (score > highscore)
-            {
-                highscore = score;
-                saveLoadManager.SaveHighscore(highscore);
-                progressUI.UpdateHighscore(highscore);
-                AudioManager.Instance?.PlayNewHighscore();
             }
         }
         else
@@ -182,6 +176,7 @@ public class GameManager : MonoBehaviour
             card.Reset();
         }
         SaveProgress();
+        progressUI.HideGameOver();
     }
     
     private void SaveProgress()

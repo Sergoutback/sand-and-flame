@@ -51,4 +51,14 @@ public class SaveLoadManager : MonoBehaviour
     {
         PlayerPrefs.DeleteKey(SaveKey);
     }
+
+#if UNITY_EDITOR
+    [ContextMenu("Clear Highscore")]
+    public void ClearHighscore()
+    {
+        PlayerPrefs.DeleteKey("Highscore");
+        PlayerPrefs.Save();
+        Debug.Log("Highscore reset!");
+    }
+#endif
 } 

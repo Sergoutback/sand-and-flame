@@ -7,6 +7,7 @@ public class GameProgressUI : MonoBehaviour
     [SerializeField] private TMP_Text scoreText;
     [SerializeField] private TMP_Text matchesText;
     [SerializeField] private TMP_Text turnsText;
+    [SerializeField] private TMP_Text gameOverText;
 
 
     public void UpdateTurns(int turns)
@@ -31,5 +32,18 @@ public class GameProgressUI : MonoBehaviour
     {
         if (highscoreText != null)
             highscoreText.text = highscore.ToString();
+    }
+
+    public void ShowGameOver(bool isNewRecord)
+    {
+        if (gameOverText == null) return;
+        gameOverText.gameObject.SetActive(true);
+        gameOverText.text = isNewRecord ? "New Record!" : "Game Over";
+    }
+
+    public void HideGameOver()
+    {
+        if (gameOverText == null) return;
+        gameOverText.gameObject.SetActive(false);
     }
 }

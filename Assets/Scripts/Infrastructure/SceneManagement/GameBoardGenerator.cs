@@ -1,14 +1,16 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class GameBoardGenerator : MonoBehaviour
 {
     [SerializeField] private CardCollection cardCollection;
     [SerializeField] private GameObject cardPrefab;
     [SerializeField] private Transform boardParent;
+    [SerializeField] private GridLayoutGroup gridLayoutGroup;
 
-    [SerializeField] private int rows = 4;
-    [SerializeField] private int columns = 4;
+    private int rows => GameSettings.Instance != null ? GameSettings.Instance.Rows : 4;
+    private int columns => GameSettings.Instance != null ? GameSettings.Instance.Columns : 4;
 
     public System.Action OnBoardGenerated;
 
@@ -43,6 +45,8 @@ public class GameBoardGenerator : MonoBehaviour
 
         Shuffle(cards);
 
+        SetGridConstraint(rows, columns);
+
         for (int i = 0; i < totalCards; i++)
         {
             var cardGO = Instantiate(cardPrefab, boardParent);
@@ -61,5 +65,11 @@ public class GameBoardGenerator : MonoBehaviour
             list[i] = list[rnd];
             list[rnd] = temp;
         }
+    }
+
+    private void SetGridConstraint(int rows, int columns)
+    {
+        gridLayoutGroup.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+        gridLayoutGroup.constraintCount = columns;
     }
 }
