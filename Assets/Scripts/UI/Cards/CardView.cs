@@ -39,6 +39,12 @@ public class CardView : MonoBehaviour
         backSide.SetActive(true);
         isFlipped = false;
     }
+    
+    public void HideSides()
+    {
+        if (frontSide != null) frontSide.SetActive(false);
+        if (backSide != null) backSide.SetActive(false);
+    }
 
     public int GetCardId() => cardData.cardId;
 }

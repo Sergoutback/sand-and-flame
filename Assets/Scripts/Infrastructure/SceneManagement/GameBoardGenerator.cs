@@ -10,7 +10,7 @@ public class GameBoardGenerator : MonoBehaviour
     [SerializeField] private int rows = 4;
     [SerializeField] private int columns = 4;
 
-    private List<CardData> _boardCards = new List<CardData>();
+    public System.Action OnBoardGenerated;
 
     void Start()
     {
@@ -19,17 +19,37 @@ public class GameBoardGenerator : MonoBehaviour
 
     public void GenerateBoard()
     {
-        List<CardData> cards = new List<CardData>(cardCollection.cards);
-        cards.AddRange(cardCollection.cards);
+        int totalCards = rows * columns;
+        if (totalCards % 2 != 0)
+        {
+            Debug.LogError("The number of cards on the field must be even!");
+            return;
+        }
+
+        int uniqueNeeded = totalCards / 2;
+        List<CardData> source = new List<CardData>(cardCollection.cards);
+
+        Shuffle(source);
+        if (source.Count < uniqueNeeded)
+        {
+            Debug.LogError("There are not enough unique cards in the collection to fill the field!");
+            return;
+        }
+        source = source.GetRange(0, uniqueNeeded);
+
+        // Duplicate pairs
+        List<CardData> cards = new List<CardData>(source);
+        cards.AddRange(source);
 
         Shuffle(cards);
 
-        for (int i = 0; i < rows * columns; i++)
+        for (int i = 0; i < totalCards; i++)
         {
             var cardGO = Instantiate(cardPrefab, boardParent);
-            var cardView = cardGO.GetComponent<CardView>();
-            cardView.SetCardData(cards[i]);
+            var card = cardGO.GetComponent<Card>();
+            card.Initialize(cards[i]);
         }
+        OnBoardGenerated?.Invoke();
     }
 
     private void Shuffle(List<CardData> list)

@@ -47,6 +47,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9167386790076233545}
   - component: {fileID: 7112906986710077222}
+  - component: {fileID: 2374516495721194777}
   m_Layer: 5
   m_Name: Card
   m_TagString: Untagged
@@ -92,6 +93,19 @@ MonoBehaviour:
   frontImage: {fileID: 5602709352149228969}
   frontSide: {fileID: 3265205445454554767}
   backSide: {fileID: 1162311850181861203}
+--- !u!114 &2374516495721194777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1663815751406941216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91049d5476feca34c8bde3e798a62846, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cardView: {fileID: 7112906986710077222}
 --- !u!1 &3265205445454554767
 GameObject:
   m_ObjectHideFlags: 0
@@ -326,9 +340,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7112906986710077222}
-        m_TargetAssemblyTypeName: CardView, Assembly-CSharp
-        m_MethodName: OnCardClicked
+      - m_Target: {fileID: 2374516495721194777}
+        m_TargetAssemblyTypeName: Card, Assembly-CSharp
+        m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
