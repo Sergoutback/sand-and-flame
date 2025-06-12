@@ -15,6 +15,9 @@ namespace UI
 
         private void HandleStartClicked()
         {
+            var gameManager = FindObjectOfType<GameManager>();
+            if (gameManager != null)
+                gameManager.ResetGame();
             GameBootstrap.Instance.StateMachine.Enter<Infrastructure.StateMachine.GameLoopState>();
         }
     }
