@@ -9,6 +9,8 @@ namespace Infrastructure
         public static GameBootstrap Instance { get; private set; }
         public GameStateMachine StateMachine { get; private set; }
         
+        [SerializeField] private GameObject _uiRootPrefab;
+        
         private void Awake()
         {
             if (Instance != null)
@@ -19,6 +21,16 @@ namespace Infrastructure
 
             Instance = this;
             DontDestroyOnLoad(this);
+
+            // Instantiate UIRoot first
+            if (_uiRootPrefab != null)
+            {
+                Instantiate(_uiRootPrefab);
+            }
+            else
+            {
+                Debug.LogError("UIRoot prefab is not assigned in GameBootstrap!");
+            }
 
             StateMachine = new GameStateMachine();
             StateMachine.Enter<BootstrapState>();
